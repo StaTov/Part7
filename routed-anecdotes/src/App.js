@@ -1,5 +1,5 @@
 import {useState} from 'react'
-import {Link, Route, Routes, useMatch} from "react-router-dom";
+import {Link, Route, Routes, useMatch, useNavigate} from "react-router-dom";
 
 const Menu = () => {
     const padding = {
@@ -54,7 +54,7 @@ const CreateNew = (props) => {
     const [content, setContent] = useState('')
     const [author, setAuthor] = useState('')
     const [info, setInfo] = useState('')
-const
+    const navigate = useNavigate()
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -64,6 +64,7 @@ const
             info,
             votes: 0
         })
+        navigate('/')
     }
     return (
         <div>
@@ -96,6 +97,24 @@ const Anecdote = ({anecdote}) => {
         </div>
     )
 }
+const Notification = ({notification}) => {
+    if (!notification) {
+        return null
+    }
+    const style = {
+        marginTop: 5,
+        padding: 5,
+        backgroundColor: 'green',
+        color: 'white',
+        borderRadius: 3,
+    }
+    return (
+        <div style={style}>
+            {notification}
+        </div>
+    )
+}
+
 const App = () => {
 
     const [anecdotes, setAnecdotes] = useState([
@@ -122,9 +141,16 @@ const App = () => {
 
     const [notification, setNotification] = useState('')
 
+    const showNotification = (message) => {
+        setNotification(message)
+        setTimeout(() => {
+            setNotification(null)
+        }, 5000)
+    }
     const addNew = (anecdote) => {
         anecdote.id = Math.round(Math.random() * 10000)
         setAnecdotes(anecdotes.concat(anecdote))
+        showNotification(`You added: '${anecdote.content}'`)
     }
 
     const anecdoteById = (id) =>
@@ -145,6 +171,7 @@ const App = () => {
         <div>
             <h1>Software anecdotes</h1>
             <Menu/>
+            <Notification notification={notification}/>
             <Routes>
                 <Route path="/" element={<AnecdoteList anecdotes={anecdotes}/>}/>
                 <Route path="/anecdotes/:id" element={<Anecdote anecdote={anecdote}/>}/>
