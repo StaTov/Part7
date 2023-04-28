@@ -1,0 +1,25 @@
+* {
+    padding: 0;
+    margin-left: 4px;
+    box-sizing: border-box;
+    font-family: Serif;
+}
+
+button, input {
+    padding: 2px;
+    margin: 2px;
+}
+
+.success{
+    text-align: center;
+    border: green solid 1px;
+    margin: 3px;
+    padding: 3px;
+}
+.error {
+    text-align: center;
+    border: red solid 1px;
+    margin: 3px;
+    padding: 3px;
+
+}
