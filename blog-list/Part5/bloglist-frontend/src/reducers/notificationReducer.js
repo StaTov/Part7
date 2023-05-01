@@ -18,4 +18,20 @@ const noteSlice = createSlice({
 })
 export const {noteSuccess, noteUnsuccess} = noteSlice.actions
 
+export const showNote = text => {
+    return async dispatch => {
+        dispatch(noteSuccess(text))
+        setTimeout(() => {
+            dispatch(noteSuccess(null))
+        }, 4000)
+    }
+}
+export const showError = text => {
+    return async dispatch => {
+        dispatch(noteUnsuccess(text))
+        setTimeout(() => {
+            dispatch(noteUnsuccess(null))
+        }, 4000)
+    }
+}
 export default noteSlice.reducer
