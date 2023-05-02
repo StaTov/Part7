@@ -9,7 +9,7 @@ const BlogsContent = ({
                       }) => {
     return (
         <div>
-            <h2>blogs</h2>
+            <h2>Blogs App</h2>
             {children}
             <div>
                 {user.name} logged in

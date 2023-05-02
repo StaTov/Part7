@@ -9,12 +9,13 @@ import {useDispatch, useSelector} from "react-redux";
 import {createBlog, initializeBlogs, increaseLike, removeBlog} from "./reducers/blogsReducer";
 import Togglable from "./components/Togglable";
 import {clearUser, initializeLogin, setUser} from "./reducers/loginReducer";
-import {Route, Routes} from "react-router-dom";
+import {Route, Routes, useNavigate} from "react-router-dom";
 import Users from "./components/Users";
 import User from "./components/User"
 import Blogs from "./components/Blogs";
 import {initializeUser} from "./reducers/userReducer";
 import Blog from "./components/Blog";
+import NavBar from "./components/NavBar";
 
 const App = () => {
     const dispatch = useDispatch()
@@ -22,6 +23,7 @@ const App = () => {
     const blogs = useSelector(state => state.blogs)
     const user = useSelector(state => state.login)
     const AllUsers = useSelector(state => state.user)
+    const navigate = useNavigate()
     const sortedBlogs = [...blogs].sort((a, b) => {
         return b.likes - a.likes
     })
@@ -52,6 +54,7 @@ const App = () => {
     const blogCreator = async (blogObj) => {
         blogFormRef.current.toggleVisibility()
         dispatch(createBlog(blogObj))
+        navigate('/')
     }
     const handleLikeAdd = async (blog) => {
         dispatch(increaseLike(blog))
@@ -61,6 +64,7 @@ const App = () => {
             return
         }
         dispatch(removeBlog(blog))
+        navigate('/')
     }
     return (<div>
         {user === null
@@ -69,16 +73,14 @@ const App = () => {
                 <Notification/>
             </LoginForm>
             : <div>
+                <NavBar user={user} handleClickLogout={handleClickLogout}/>
+                <Notification/>
                 <Togglable
                     buttonLable="New blog"
                     ref={blogFormRef}>
                     <BlogForm addBlog={blogCreator}/>
                 </Togglable>
-                <BlogsContent
-                    user={user}
-                    handleClickLogout={handleClickLogout}>
-                    <Notification/>
-                </BlogsContent>
+
 
                 <Routes>
                     <Route path="/" element={<Blogs blogs={sortedBlogs}/>}/>

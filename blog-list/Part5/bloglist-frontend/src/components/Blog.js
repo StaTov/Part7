@@ -35,7 +35,7 @@ const Blog = ({blogs, user, handleDeleteBlog, handleLikeAdd}) => {
                         </button>
                     </div>
                     <div>
-                        added by: {blog.user[0].name}
+                        added by: {blog.user[0].username}
                     </div>
                     <div>{blog.user[0].username === user.username &&
                         <button
