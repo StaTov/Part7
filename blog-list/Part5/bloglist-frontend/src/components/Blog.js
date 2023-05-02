@@ -1,11 +1,8 @@
-import {useState} from "react";
+import {useParams} from "react-router-dom";
 
 
-const Blog = ({blog, user, handleDeleteBlog, handleLikeAdd}) => {
-    const [visible, setVisible] = useState(false)
-    const handleVisibility = () => {
-        setVisible(!visible)
-    }
+const Blog = ({blogs, user, handleDeleteBlog, handleLikeAdd}) => {
+
     const blogStyle = {
         paddingTop: 10,
         paddingLeft: 2,
@@ -13,43 +10,41 @@ const Blog = ({blog, user, handleDeleteBlog, handleLikeAdd}) => {
         borderWidth: 1,
         marginBottom: 5
     }
+    const id = useParams().id
+    const blog = blogs.find(blog => blog.id === id)
+
+    if (!blog) {
+        return null
+    }
 
     return (
         <div className="blog" style={blogStyle}>
             <div className="firstInfo">
-                {blog.title} {blog.author}
-                <button
-                    type="button"
-                    onClick={handleVisibility}>
-                    {visible ? 'hide' : 'view'}
-                </button>
+                <h2>
+                    {blog.title} {blog.author}
+                </h2>
             </div>
             <div className="secondInfo">
-                {visible
-                    ? <div>
-                        <div>URL: {blog.url}</div>
-                        <div>likes: {blog.likes}
-                            <button
-                                type="button"
-                                onClick={() => handleLikeAdd(blog)}
-                            >like
-                            </button>
-                        </div>
-                        <div>
-                            user: {user.name}
-                        </div>
-                        <div>{blog.user[0].username === user.username &&
-                            <button
-                                type="submit"
-                                onClick={() => handleDeleteBlog(blog, user)}>
-                                remove
-                            </button>}
-                        </div>
+                <div>
+                    <div>URL:<a href="">{blog.url}</a></div>
+                    <div>likes: {blog.likes}
+                        <button
+                            type="button"
+                            onClick={() => handleLikeAdd(blog)}
+                        >like
+                        </button>
                     </div>
-                    : <div>
-                        {null}
+                    <div>
+                        added by: {blog.user[0].name}
                     </div>
-                }
+                    <div>{blog.user[0].username === user.username &&
+                        <button
+                            type="submit"
+                            onClick={() => handleDeleteBlog(blog, user)}>
+                            remove
+                        </button>}
+                    </div>
+                </div>
             </div>
         </div>
     )

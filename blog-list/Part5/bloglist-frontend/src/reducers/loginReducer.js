@@ -4,7 +4,7 @@ import blogService from "../services/blogs";
 import {showError, showNote} from "./notificationReducer";
 
 
-const userSlice = createSlice({
+const loginSlice = createSlice({
     name: 'login',
     initialState: null,
     reducers: {
@@ -17,8 +17,8 @@ const userSlice = createSlice({
 
     }
 })
-export const {setUser, clearUser} = userSlice.actions
-export const initializeUser = (signObj) => {
+export const {setUser, clearUser} = loginSlice.actions
+export const initializeLogin = (signObj) => {
     return async dispatch => {
         try {
             const user = await loginService.login(signObj)
@@ -34,4 +34,4 @@ export const initializeUser = (signObj) => {
         }
     }
 }
-export default userSlice.reducer
+export default loginSlice.reducer

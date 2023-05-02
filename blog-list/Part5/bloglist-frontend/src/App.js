@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react'
+import React, {useEffect, useRef} from 'react'
 import './style.css'
 import blogService from './services/blogs'
 import LoginForm from "./components/LoginForm";
@@ -6,20 +6,28 @@ import BlogsContent from "./components/BlogsContent";
 import BlogForm from "./components/BlogForm";
 import Notification from "./components/Notification";
 import {useDispatch, useSelector} from "react-redux";
-import {showError, showNote} from "./reducers/notificationReducer";
 import {createBlog, initializeBlogs, increaseLike, removeBlog} from "./reducers/blogsReducer";
 import Togglable from "./components/Togglable";
-import {clearUser, initializeUser, setUser} from "./reducers/loginReducer";
+import {clearUser, initializeLogin, setUser} from "./reducers/loginReducer";
+import {Route, Routes} from "react-router-dom";
+import Users from "./components/Users";
+import User from "./components/User"
+import Blogs from "./components/Blogs";
+import {initializeUser} from "./reducers/userReducer";
+import Blog from "./components/Blog";
 
 const App = () => {
     const dispatch = useDispatch()
-
     const blogFormRef = useRef()
     const blogs = useSelector(state => state.blogs)
     const user = useSelector(state => state.login)
-
+    const AllUsers = useSelector(state => state.user)
+    const sortedBlogs = [...blogs].sort((a, b) => {
+        return b.likes - a.likes
+    })
 
     useEffect(() => {
+        dispatch(initializeUser())
         dispatch(initializeBlogs())
     }, [dispatch])
 
@@ -34,7 +42,7 @@ const App = () => {
         }
     }, [])
     const setAuthorization = (signObj) => {
-        dispatch(initializeUser(signObj))
+        dispatch(initializeLogin(signObj))
     }
 
     const handleClickLogout = () => {
@@ -54,32 +62,36 @@ const App = () => {
         }
         dispatch(removeBlog(blog))
     }
-    return (
-        <div>
-            {user === null
-                ? <LoginForm
-                    setAuthorization={setAuthorization}
-                >
+    return (<div>
+        {user === null
+            ? <LoginForm
+                setAuthorization={setAuthorization}>
+                <Notification/>
+            </LoginForm>
+            : <div>
+                <Togglable
+                    buttonLable="New blog"
+                    ref={blogFormRef}>
+                    <BlogForm addBlog={blogCreator}/>
+                </Togglable>
+                <BlogsContent
+                    user={user}
+                    handleClickLogout={handleClickLogout}>
                     <Notification/>
-                </LoginForm>
-                : <div>
-                    <Togglable
-                        buttonLable="New blog"
-                        ref={blogFormRef}>
-                        <BlogForm addBlog={blogCreator}/>
-                    </Togglable>
-                    <BlogsContent
-                        blogs={blogs}
-                        user={user}
-                        handleClickLogout={handleClickLogout}
-                        handleLikeAdd={handleLikeAdd}
-                        handleDeleteBlog={handleDeleteBlog}
-                    >
-                        <Notification/>
-                    </BlogsContent>
-                </div>}
-        </div>
-    )
-}
+                </BlogsContent>
 
+                <Routes>
+                    <Route path="/" element={<Blogs blogs={sortedBlogs}/>}/>
+                    <Route path="/users" element={<Users users={AllUsers}/>}/>
+                    <Route path="/users/:id" element={<User users={AllUsers}/>}/>
+                    <Route path="/blogs/:id" element={<Blog
+                        handleDeleteBlog={handleDeleteBlog}
+                        handleLikeAdd={handleLikeAdd}
+                        user={user}
+                        blogs={blogs}/>}/>
+                </Routes>
+
+            </div>}
+    </div>)
+}
 export default App

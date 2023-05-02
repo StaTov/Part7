@@ -4,10 +4,7 @@ import Blog from "./Blog";
 
 const BlogsContent = ({
                           children,
-                          blogs,
                           user,
-                          handleDeleteBlog,
-                          handleLikeAdd,
                           handleClickLogout
                       }) => {
     return (
@@ -20,15 +17,6 @@ const BlogsContent = ({
                     onClick={handleClickLogout}
                     type="button">logout</button>
             </div>
-            {blogs.map(blog =>
-                <Blog
-                    key={blog.id}
-                    blog={blog}
-                    user={user}
-                    handleLikeAdd={handleLikeAdd}
-                    handleDeleteBlog={handleDeleteBlog}
-                />
-            )}
         </div>
     );
 };
