@@ -2,11 +2,17 @@ import React, {useEffect, useRef} from 'react'
 import './style.css'
 import blogService from './services/blogs'
 import LoginForm from "./components/LoginForm";
-import BlogsContent from "./components/BlogsContent";
 import BlogForm from "./components/BlogForm";
 import Notification from "./components/Notification";
 import {useDispatch, useSelector} from "react-redux";
-import {createBlog, initializeBlogs, increaseLike, removeBlog} from "./reducers/blogsReducer";
+import {
+    createBlog,
+    initializeBlogs,
+    increaseLike,
+    removeBlog,
+    addComment,
+    initializeComment
+} from "./reducers/blogsReducer";
 import Togglable from "./components/Togglable";
 import {clearUser, initializeLogin, setUser} from "./reducers/loginReducer";
 import {Route, Routes, useNavigate} from "react-router-dom";
@@ -51,20 +57,23 @@ const App = () => {
         window.localStorage.removeItem('loggedBlogappUser')
         dispatch(clearUser())
     }
-    const blogCreator = async (blogObj) => {
+    const blogCreator = (blogObj) => {
         blogFormRef.current.toggleVisibility()
         dispatch(createBlog(blogObj))
         navigate('/')
     }
-    const handleLikeAdd = async (blog) => {
+    const handleLikeAdd =  (blog) => {
         dispatch(increaseLike(blog))
     }
-    const handleDeleteBlog = async (blog, user) => {
+    const handleDeleteBlog =  (blog, user) => {
         if (!window.confirm(`Remove blog ${blog.title} gonna need it! by ${user.name}`)) {
             return
         }
         dispatch(removeBlog(blog))
         navigate('/')
+    }
+    const setComment = (comment, id) => {
+        dispatch(initializeComment(comment, id))
     }
     return (<div>
         {user === null
@@ -87,6 +96,7 @@ const App = () => {
                     <Route path="/users" element={<Users users={AllUsers}/>}/>
                     <Route path="/users/:id" element={<User users={AllUsers}/>}/>
                     <Route path="/blogs/:id" element={<Blog
+                        addComment={setComment}
                         handleDeleteBlog={handleDeleteBlog}
                         handleLikeAdd={handleLikeAdd}
                         user={user}

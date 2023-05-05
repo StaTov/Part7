@@ -7,6 +7,10 @@ let token
 const setToken = newToken => {
     token = `Bearer ${newToken}`
 }
+const createComment = async (id, comment) => {
+    const response = await axios.post(`${baseUrl}/${id}/comments`, {comment})
+    return response.data
+}
 
 const getOne = (id) => {
     const config = {
@@ -44,4 +48,4 @@ const remove = async (id) => {
     await axios.delete(`${baseUrl}/${id}`, config)
 }
 // eslint-disable-next-line import/no-anonymous-default-export
-export default {getAll, create, setToken, update, remove, getOne}
+export default {getAll, create, setToken, update, remove, getOne, createComment}
