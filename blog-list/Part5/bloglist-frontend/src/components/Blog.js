@@ -2,6 +2,7 @@ import {useParams} from "react-router-dom";
 import React, {useState} from "react";
 import {useDispatch} from "react-redux";
 import {showError} from "../reducers/notificationReducer";
+import {Button} from "react-bootstrap";
 
 
 const Blog = ({
@@ -49,22 +50,22 @@ const Blog = ({
                 <div>
 
                     <div>likes: {blog.likes}
-                        <button
+                        <Button
                             type="button"
                             onClick={() => handleLikeAdd(blog)}
                         >like
-                        </button>
+                        </Button>
                     </div>
                     <div>
                         added by: {blog.user[0].username}
-                    </div>
+                         </div>
                     <div>URL:<a href={`${blog.url}`}>{blog.url}</a></div>
                     <div>{blog.user[0].username === user.username &&
-                        <button
+                        <Button
                             type="submit"
                             onClick={() => handleDeleteBlog(blog, user)}>
                             remove
-                        </button>}
+                        </Button>}
                     </div>
                     <div>
                         <h3>comments</h3>
@@ -76,9 +77,9 @@ const Blog = ({
                                     value={comment}
                                     onChange={handleComment}
                                 />
-                                <button type="submit">
+                                <Button type="submit">
                                     add comment
-                                </button>
+                                </Button>
                             </form>
                         </div>
 

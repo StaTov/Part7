@@ -1,5 +1,8 @@
 import React from 'react';
 import {useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {Form} from "react-bootstrap";
+import Button from "react-bootstrap/Button";
 
 
 const LoginForm = ({
@@ -8,7 +11,7 @@ const LoginForm = ({
                    }) => {
     const [password, setPassword] = useState('')
     const [username, setUsername] = useState('')
-
+    const navigate = useNavigate()
     const handlePassword = ({target}) => setPassword(target.value)
     const handleUsername = ({target}) => setUsername(target.value)
     const handleLogin = (e) => {
@@ -16,6 +19,7 @@ const LoginForm = ({
         setAuthorization({username, password})
         setPassword('')
         setUsername('')
+        navigate('/')
     }
 
     return (
@@ -24,35 +28,34 @@ const LoginForm = ({
                 <h2>log in to application</h2>
                 {children}
             </div>
-            <form onSubmit={handleLogin}>
-                <div>
-                    username
-                    <input
-                        id="username"
+            <Form onSubmit={handleLogin}>
+                <Form.Group className="mb-3" controlId="formBasicUsername">
+                    <Form.Label>Username</Form.Label>
+                    <Form.Control
+                        placeholder='Enter username'
                         value={username}
                         name="Username"
                         type="text"
                         onChange={handleUsername}
                     />
-                </div>
-                <div>
-                    password
-                    <input
-                        id="password"
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control
+                        placeholder='Enter password'
                         type="password"
                         value={password}
                         name="Password"
                         onChange={handlePassword}
                     />
-                </div>
+                </Form.Group>
                 <div>
-                    <button
-                        id="login-button"
+                    <Button
                         type="submit">
                         login
-                    </button>
+                    </Button>
                 </div>
-            </form>
+            </Form>
         </div>
     );
 };

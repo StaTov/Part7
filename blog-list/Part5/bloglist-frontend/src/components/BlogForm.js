@@ -1,10 +1,14 @@
 import {useState} from "react";
+import {Form} from "react-bootstrap";
+import Button from "react-bootstrap/Button"
+import {useSelector} from "react-redux";
 
 const BlogForm = ({addBlog}) => {
+    const [showForm, setShowForm] = useState(false)
     const [title, setTitle] = useState('')
     const [author, setAuthor] = useState('')
     const [url, setUrl] = useState('')
-
+    const user = useSelector(state => state.login)
     const handleChangeTitle = ({target}) => {
         setTitle(target.value)
     }
@@ -17,50 +21,73 @@ const BlogForm = ({addBlog}) => {
     const handleCreateBlog = (e) => {
         e.preventDefault()
         addBlog({title, author, url})
+        setShowForm(!showForm)
         setTitle('')
         setAuthor('')
         setUrl('')
     }
+    const toggleForm = () => {
+        setShowForm(!showForm)
+    }
+    if (!user) {
+        return null
+    }
+    if (!showForm) {
+        return (
+            <div>
+                <Button
+                    variant="primary"
+                    type="button"
+                    onClick={toggleForm}>
+                    New blog
+                </Button>
+            </div>
+        )
+    }
 
     return (
+
         <div>
             <h2>create new</h2>
-            <form onSubmit={handleCreateBlog}>
-                <div>
-                    title:
-                    <input
-                        id="title"
+            <Form onSubmit={handleCreateBlog}>
+                <Form.Group className="mb-3" controlId="FormBasicTitle">
+                    <Form.Label>Title</Form.Label>
+                    <Form.Control
                         placeholder="title"
                         value={title}
                         onChange={handleChangeTitle}
                         type="text"/>
-                </div>
-                <div>
-                    author:
-                    <input
-                        id="author"
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="FormBasicAuthor">
+                    <Form.Label>Author</Form.Label>
+                    <Form.Control
                         placeholder="author"
                         value={author}
                         onChange={handleChangeAuthor}
                         type="text"/>
-                </div>
-                <div>
-                    url:
-                    <input
-                        id="url"
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="FormBasicUrl">
+                    <Form.Label>URL</Form.Label>
+                    <Form.Control
                         placeholder="url"
                         value={url}
                         onChange={handleChangeUrl}
                         type="text"/>
-                </div>
-                <div>
-                    <button
-                        id="createBlog-button"
-                        type="submit">create</button>
-                </div>
-            </form>
+                </Form.Group>
+                <Button variant="primary"
+                        type="submit">
+                    create
+                </Button>
+                <Button
+                    variant="dark"
+                    type="button"
+                    onClick={toggleForm}>
+                    Cancel
+                </Button>
+            </Form>
         </div>
-    );
+    )
+        ;
 };
 
 export default BlogForm;
