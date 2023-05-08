@@ -21,6 +21,7 @@ import Blogs from "./components/Blogs";
 import {initializeUser} from "./reducers/userReducer";
 import Blog from "./components/Blog";
 import NavBar from "./components/NavBar";
+import {Container} from "react-bootstrap";
 
 const App = () => {
     const dispatch = useDispatch()
