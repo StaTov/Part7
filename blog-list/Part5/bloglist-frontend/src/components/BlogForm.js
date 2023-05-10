@@ -1,7 +1,8 @@
 import {useState} from "react";
-import {Form} from "react-bootstrap";
-import Button from "react-bootstrap/Button"
 import {useSelector} from "react-redux";
+import {Button, TextField} from "@mui/material";
+import Box from "@mui/material/Box"
+import Typography from "@mui/material/Typography"
 
 const BlogForm = ({addBlog}) => {
     const [showForm, setShowForm] = useState(false)
@@ -34,58 +35,62 @@ const BlogForm = ({addBlog}) => {
     }
     if (!showForm) {
         return (
-            <div>
+            <Box p={1}>
                 <Button
-                    variant="primary"
+                    variant="outlined"
                     type="button"
                     onClick={toggleForm}>
                     New blog
                 </Button>
-            </div>
+            </Box>
         )
     }
 
     return (
 
-        <div>
-            <h2>create new</h2>
-            <Form onSubmit={handleCreateBlog}>
-                <Form.Group className="mb-3" controlId="FormBasicTitle">
-                    <Form.Label>Title</Form.Label>
-                    <Form.Control
-                        placeholder="title"
-                        value={title}
-                        onChange={handleChangeTitle}
-                        type="text"/>
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="FormBasicAuthor">
-                    <Form.Label>Author</Form.Label>
-                    <Form.Control
-                        placeholder="author"
-                        value={author}
-                        onChange={handleChangeAuthor}
-                        type="text"/>
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="FormBasicUrl">
-                    <Form.Label>URL</Form.Label>
-                    <Form.Control
-                        placeholder="url"
-                        value={url}
-                        onChange={handleChangeUrl}
-                        type="text"/>
-                </Form.Group>
-                <Button variant="primary"
-                        type="submit">
-                    create
-                </Button>
-                <Button
-                    variant="dark"
-                    type="button"
-                    onClick={toggleForm}>
-                    Cancel
-                </Button>
-            </Form>
-        </div>
+        <Box>
+            <Typography variant="h5">create new</Typography>
+            <Box p={1}>
+                <form onSubmit={handleCreateBlog}>
+                    <Box mt={1}>
+                        <TextField
+                            label="Title"
+                            variant="outlined"
+                            value={title}
+                            onChange={handleChangeTitle}
+                        />
+                    </Box>
+                    <Box mt={1}>
+                        <TextField
+                            label="Author"
+                            variant="outlined"
+                            value={author}
+                            onChange={handleChangeAuthor}
+                        />
+                    </Box>
+                    <Box mt={1}>
+                        <TextField
+                            label="Url"
+                            variant="outlined"
+                            value={url}
+                            onChange={handleChangeUrl}
+                        />
+                    </Box>
+                    <Box mt={2}>
+                        <Button variant="contained"
+                                type="submit">
+                            create
+                        </Button>
+                        <Button sx={{ml: 4.5}}
+                            variant="outlined"
+                            type="button"
+                            onClick={toggleForm}>
+                            Cancel
+                        </Button>
+                    </Box>
+                </form>
+            </Box>
+        </Box>
     )
         ;
 };

@@ -1,9 +1,12 @@
 import React from 'react';
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {Form} from "react-bootstrap";
-import Button from "react-bootstrap/Button";
-
+import {useSelector} from "react-redux"
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField"
+import Paper from "@mui/material/Paper"
+import Box from "@mui/material/Box"
+import Typography from "@mui/material/Typography"
 
 const LoginForm = ({
                        children,
@@ -21,42 +24,48 @@ const LoginForm = ({
         setUsername('')
         navigate('/')
     }
-
+    const user = useSelector(state => state.login)
+    if (user) {
+        return null
+    }
     return (
-        <div>
-            <div>
-                <h2>log in to application</h2>
+        <Paper elevation={3}
+               sx={{
+                   pt: 5,
+                   pl: 3,
+                   pb: 3
+               }}
+        >
+            <Box sx={{p: 1}}>
+                <Typography variant="h5">Log in to application</Typography>
                 {children}
-            </div>
-            <Form onSubmit={handleLogin}>
-                <Form.Group className="mb-3" controlId="formBasicUsername">
-                    <Form.Label>Username</Form.Label>
-                    <Form.Control
-                        placeholder='Enter username'
+            </Box>
+            <form onSubmit={handleLogin}>
+                <Box sx={{p: 1}}>
+                    <TextField
+                        variant="outlined"
+                        label="Username"
                         value={username}
-                        name="Username"
-                        type="text"
                         onChange={handleUsername}
                     />
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control
-                        placeholder='Enter password'
-                        type="password"
+                </Box>
+                <Box sx={{p: 1}}>
+                    <TextField
+                        variant="outlined"
+                        label="Password"
                         value={password}
-                        name="Password"
+                        type="password"
                         onChange={handlePassword}
                     />
-                </Form.Group>
-                <div>
-                    <Button
-                        type="submit">
+                </Box>
+                <Box sx={{p: 1}}>
+                    <Button variant="contained"
+                            type="submit">
                         login
                     </Button>
-                </div>
-            </Form>
-        </div>
+                </Box>
+            </form>
+        </Paper>
     );
 };
 

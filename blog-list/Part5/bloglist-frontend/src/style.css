@@ -1,25 +1,26 @@
 * {
     padding: 0;
-    margin-left: 4px;
+    margin: 0;
     box-sizing: border-box;
-    font-family: Serif;
+    font-family: Roboto;
 }
 
-button, input {
-    padding: 2px;
-    margin: 2px;
+.styleLink {
+text-decoration: none;
+font-family: roboto;
+color: #006fde;
 }
-
-.success{
-    text-align: center;
-    border: green solid 1px;
-    margin: 3px;
-    padding: 3px;
+.styleLink:hover {
+    color: #6b186b
 }
-.error {
-    text-align: center;
-    border: red solid 1px;
-    margin: 3px;
-    padding: 3px;
-
+.NavLink {
+    color: white;
+    text-decoration: none;
+    font-family: roboto;
+}
+.NavLink:hover {
+    color: #1a1818;
+}
+.NavLink:focus {
+    color: #1a1818;
 }

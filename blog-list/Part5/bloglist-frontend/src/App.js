@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react'
+import React, {useEffect} from 'react'
 import './style.css'
 import blogService from './services/blogs'
 import LoginForm from "./components/LoginForm";
@@ -21,7 +21,8 @@ import Blogs from "./components/Blogs";
 import {initializeUser} from "./reducers/userReducer";
 import Blog from "./components/Blog";
 import NavBar from "./components/NavBar";
-import {Container} from "react-bootstrap";
+import Container from '@mui/material/Container'
+import Title from "./components/Title";
 
 const App = () => {
     const dispatch = useDispatch()
@@ -53,6 +54,7 @@ const App = () => {
     }
 
     const handleClickLogout = () => {
+        navigate('/')
         window.localStorage.removeItem('loggedBlogappUser')
         dispatch(clearUser())
     }
@@ -73,9 +75,11 @@ const App = () => {
     const setComment = (comment, id) => {
         dispatch(initializeComment(comment, id))
     }
-    return (<div className="container">
+    return (<div>
 
-                <NavBar user={user} handleClickLogout={handleClickLogout}/>
+            <NavBar user={user} handleClickLogout={handleClickLogout}/>
+            <Container>
+                <Title/>
                 <Notification/>
                 <BlogForm addBlog={blogCreator}/>
                 <Routes>
@@ -93,8 +97,8 @@ const App = () => {
                         user={user}
                         blogs={blogs}/>}/>
                 </Routes>
-
-            </div>
-   )
+            </Container>
+        </div>
+    )
 }
 export default App

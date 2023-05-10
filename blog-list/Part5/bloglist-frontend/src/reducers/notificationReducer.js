@@ -12,7 +12,7 @@ const noteSlice = createSlice({
         },
         noteUnsuccess: (state, action) => {
             state.text = action.payload
-            state.style = 'danger'
+            state.style = 'error'
         }
     }
 })

@@ -1,6 +1,9 @@
 import React from 'react';
 import {useSelector} from "react-redux";
-import {Alert} from "react-bootstrap";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle"
+import Box from "@mui/material/Box"
+
 
 const Notification = () => {
     const message = useSelector(state => state.message)
@@ -9,9 +12,12 @@ const Notification = () => {
         return null
     }
     return (
-        <Alert variant={message.style}>
-            <Alert.Heading>{message.text}</Alert.Heading>
+        <Box p={3}>
+        <Alert severity={message.style}>
+           <AlertTitle>{message.style}</AlertTitle>
+            {message.text}
         </Alert>
+        </Box>
     );
 };
 
