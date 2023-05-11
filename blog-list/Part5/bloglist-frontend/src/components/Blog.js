@@ -46,21 +46,21 @@ const Blog = ({
                 </Typography>
                 <div className="secondInfo">
                     <div>
-
-                        <Typography variant="body1">
-                            likes: {blog.likes}
+                        <Box sx={{display: "flex", alignItems: "center", mt: 2}}>
+                            <Typography variant="body1">
+                                likes: {blog.likes}
+                            </Typography>
+                            <Button sx={{ml: 3}}
+                                size="small"
+                                variant="outlined"
+                                startIcon={<FavoriteIcon/>}
+                                onClick={() => handleLikeAdd(blog)}
+                            > like
+                            </Button>
+                        </Box>
+                        <Typography variant="caption">
+                           <em> added by: {blog.user[0].username}</em>
                         </Typography>
-                        <Button
-                            size="medium"
-                            variant="elevated"
-                            startIcon={<FavoriteIcon/>}
-                            color="tertiary"
-                            onClick={() => handleLikeAdd(blog)}
-                        > like
-                        </Button>
-                        <div>
-                            added by: {blog.user[0].username}
-                        </div>
                         <div>URL:<a href={`${blog.url}`}>{blog.url}</a></div>
                         <div>{blog.user[0].username === user.username &&
                             <Button
@@ -71,7 +71,7 @@ const Blog = ({
                                 remove
                             </Button>}
                         </div>
-                        <div>
+                        <Box>
                             <h3>comments</h3>
                             <div>
                                 <form onSubmit={createComment}>
@@ -99,7 +99,8 @@ const Blog = ({
 
                                 }
                             </ul>
-                        </div>
+
+                        </Box>
                     </div>
                 </div>
             </Paper>
