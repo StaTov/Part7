@@ -1,27 +1,27 @@
-import {useState} from "react";
-import {useSelector} from "react-redux";
-import {Button, TextField} from "@mui/material";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { Button, TextField } from "@mui/material";
 import Box from "@mui/material/Box"
 import Typography from "@mui/material/Typography"
 
-const BlogForm = ({addBlog}) => {
+const BlogForm = ({ addBlog }) => {
     const [showForm, setShowForm] = useState(false)
     const [title, setTitle] = useState('')
     const [author, setAuthor] = useState('')
     const [url, setUrl] = useState('')
     const user = useSelector(state => state.login)
-    const handleChangeTitle = ({target}) => {
+    const handleChangeTitle = ({ target }) => {
         setTitle(target.value)
     }
-    const handleChangeAuthor = ({target}) => {
+    const handleChangeAuthor = ({ target }) => {
         setAuthor(target.value)
     }
-    const handleChangeUrl = ({target}) => {
+    const handleChangeUrl = ({ target }) => {
         setUrl(target.value)
     }
     const handleCreateBlog = (e) => {
         e.preventDefault()
-        addBlog({title, author, url})
+        addBlog({ title, author, url })
         setShowForm(!showForm)
         setTitle('')
         setAuthor('')
@@ -54,6 +54,7 @@ const BlogForm = ({addBlog}) => {
                 <form onSubmit={handleCreateBlog}>
                     <Box mt={1}>
                         <TextField
+                            size="small"
                             label="Title"
                             variant="outlined"
                             value={title}
@@ -62,6 +63,7 @@ const BlogForm = ({addBlog}) => {
                     </Box>
                     <Box mt={1}>
                         <TextField
+                            size="small"
                             label="Author"
                             variant="outlined"
                             value={author}
@@ -70,6 +72,7 @@ const BlogForm = ({addBlog}) => {
                     </Box>
                     <Box mt={1}>
                         <TextField
+                            size="small"
                             label="Url"
                             variant="outlined"
                             value={url}
@@ -77,11 +80,15 @@ const BlogForm = ({addBlog}) => {
                         />
                     </Box>
                     <Box mt={2}>
-                        <Button variant="contained"
-                                type="submit">
+                        <Button
+                            size="small"
+                            variant="contained"
+                            type="submit">
                             create
                         </Button>
-                        <Button sx={{ml: 4.5}}
+                        <Button
+                            size="small"
+                            sx={{ ml: 4.5 }}
                             variant="outlined"
                             type="button"
                             onClick={toggleForm}>
