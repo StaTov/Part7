@@ -24,3 +24,11 @@ color: #006fde;
 .NavLink:focus {
     color: #1a1818;
 }
+.userList {
+    text-decoration: none;
+    font-family: roboto;
+    color: #006fde;
+}
+.userList:hover {
+    color: #1a1818;
+}

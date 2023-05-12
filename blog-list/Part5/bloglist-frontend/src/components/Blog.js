@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { showInfo } from "../reducers/notificationReducer";
 import { showError } from "../reducers/notificationReducer";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box"
@@ -15,33 +16,51 @@ import { red } from '@mui/material/colors';
 import SendIcon from '@mui/icons-material/Send';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
-const color = red[500];
-
-
 const Blog = ({
     blogs,
     user,
-    handleDeleteBlog,
-    handleLikeAdd,
+    deleteBlog,
+    likeAdd,
     addComment
 }) => {
 
-
+    const color = red[500];
     const dispatch = useDispatch()
     const [comment, setComment] = useState('')
-    const [ratingValue, setRatingValue] = useState('2')
+    const [ratingValue, setRatingValue] = useState(2)
+    const id = useParams().id
+    const blog = blogs.find(blog => blog.id === id)
 
     const handleComment = ({ target }) => setComment(target.value)
+
     const createComment = (e) => {
         e.preventDefault()
+        if (!user) {
+            dispatch(showInfo('Only authorized users can comment'))
+            setComment('')
+            return
+        }
         if (!comment) {
             return dispatch(showError('field <text> is requred'))
         }
         addComment(comment, id)
         setComment('')
     }
-    const id = useParams().id
-    const blog = blogs.find(blog => blog.id === id)
+    const handleLikeAdd = (e) => {
+        if (!user) {
+            dispatch(showInfo('Only authorized users can like'))
+            return
+        }
+        e.preventDefault()
+        likeAdd(blog)
+    }
+    const handleRating = (e) => {
+        if (!user) {
+            dispatch(showInfo('Only authorized users can vote'))
+            return
+        }
+        setRatingValue(+e.target.value)
+    }
 
     if (!blog) {
         return null
@@ -55,7 +74,8 @@ const Blog = ({
                 </Typography>
                 <Rating sx={{ mt: 1 }}
                     name="simple-controlled"
-                    value={3}
+                    value={ratingValue}
+                    onChange={handleRating}
                 />
                 <Box sx={{ display: "flex", alignItems: "center", mt: 2 }}>
                     <Typography variant="body1">
@@ -65,7 +85,7 @@ const Blog = ({
                         size="small"
                         variant="outlined"
                         startIcon={<FavoriteIcon />}
-                        onClick={() => handleLikeAdd(blog)}
+                        onClick={handleLikeAdd}
                     > like
                     </Button>
                 </Box>
@@ -74,21 +94,21 @@ const Blog = ({
                         source: <Link href={`${blog.url}`} underline="hover">{blog.url}</Link>
                     </Typography>
                 </Box>
-                <Box sx={{ display: "flex", alignItems: "flex-end" }}>
-                    <Typography flexGrow={1} variant="caption">
+                <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+
+                    <Typography variant="caption">
                         <em> added by: {blog.user[0].username}</em>
                     </Typography>
 
-                    {blog.user[0].username === user.username &&
-                        <Button flexGrow={1}
+                    {user && blog.user[0].username === user.username &&
+                        <Button
                             size="small"
                             type="button"
                             variant="outlined"
                             startIcon={<DeleteIcon />}
-                            onClick={() => handleDeleteBlog(blog, user)}>
+                            onClick={() => deleteBlog(blog, user)}>
                             remove
                         </Button>}
-
                 </Box>
             </Paper>
             <Box mt={3} mb={4}>
@@ -110,7 +130,10 @@ const Blog = ({
                                     sx={{ ml: 1 }}
                                     startIcon={<SendIcon />}
                                     size="large"
-                                    variant="contained">
+                                    variant="contained"
+                                    value={comment}
+                                    onClick={createComment}
+                                >
                                 </Button>}
                             </Box>
                         </form>
@@ -118,20 +141,16 @@ const Blog = ({
                     <Box>
 
                         {blog.comments.map(item =>
-                            <Box key={item.id} sx={{display: "flex", mt: 1}}>
-                                <AccountCircleIcon sx={{mr: 1}} /> 
+                            <Box key={item.id} sx={{ display: "flex", mt: 1 }}>
+                                <AccountCircleIcon sx={{ mr: 1 }} />
                                 <Typography variant="body1" >
                                     {item.comment}
                                 </Typography>
-                            </Box>
-                        )
-
+                            </Box>)
                         }
-
                     </Box>
                 </Paper>
             </Box>
-
         </Box>
     )
 }

@@ -1,10 +1,11 @@
 import React from 'react';
+import Typography  from '@mui/material/Typography';
 
 const BlogList = ({blog}) => {
     return (
-        <li>
+        <Typography variant="body1">
             {blog.title}
-        </li>
+        </Typography>
     );
 };
 

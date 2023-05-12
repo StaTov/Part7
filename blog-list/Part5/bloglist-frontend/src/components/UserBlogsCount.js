@@ -1,17 +1,26 @@
 import React from 'react';
-import {Link} from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import Box from "@mui/material/Box"
+import Typography from '@mui/material/Typography';
 
-const UserBlogsCount = ({user}) => {
+const UserBlogsCount = ({ user }) => {
     return (
 
         <tr>
             <td>
-                <Link to={`/users/${user.id}`}>
-                    {user.name}
-                </Link>
+                <Box pt={1} pr={2}>
+                    <Typography varinat='h5'>
+                        <NavLink className="userList" to={`/users/${user.id}`}>
+                            {user.name}
+                        </NavLink>
+                    </Typography>
+                </Box>
             </td>
-            <td>{user.blogs.length}</td>
-
+            <td>
+                <Box sx={{ display: "flex", justifyContent: "center" }} pt={1} pr={2}>
+                    {user.blogs.length}
+                </Box>
+            </td>
         </tr>
 
 

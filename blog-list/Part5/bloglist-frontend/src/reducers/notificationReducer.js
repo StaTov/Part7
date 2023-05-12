@@ -13,16 +13,28 @@ const noteSlice = createSlice({
         noteUnsuccess: (state, action) => {
             state.text = action.payload
             state.style = 'error'
+        },
+        noteInfo: (state, action) => {
+            state.text = action.payload
+            state.style = 'info'
         }
     }
 })
-export const {noteSuccess, noteUnsuccess} = noteSlice.actions
+export const {noteSuccess, noteUnsuccess, noteInfo} = noteSlice.actions
 
 export const showNote = text => {
     return async dispatch => {
         dispatch(noteSuccess(text))
         setTimeout(() => {
             dispatch(noteSuccess(null))
+        }, 4000)
+    }
+}
+export const showInfo = text => {
+    return async dispatch => {
+        dispatch(noteInfo(text))
+        setTimeout(() => {
+            dispatch(noteInfo(null))
         }, 4000)
     }
 }

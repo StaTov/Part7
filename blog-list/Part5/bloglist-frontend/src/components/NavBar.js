@@ -8,15 +8,7 @@ import Typography from "@mui/material/Typography"
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const NavBar = ({user, handleClickLogout}) => {
-
-    const styleLink = {
-        color: "white",
-        textDecoration: "none",
-        marginLeft: 10,
-        "&:hover": {color: "red"}
-    }
-
-
+   
     return (<Box sx={{flexGrow: 1}}>
         <AppBar position="static">
             <Toolbar>

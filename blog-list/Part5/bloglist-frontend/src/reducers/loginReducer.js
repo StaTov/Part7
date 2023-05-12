@@ -1,7 +1,7 @@
-import {createSlice} from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import loginService from '../services/logins'
 import blogService from "../services/blogs";
-import {showError, showNote} from "./notificationReducer";
+import { showError, showNote } from "./notificationReducer";
 
 
 const loginSlice = createSlice({
@@ -17,8 +17,10 @@ const loginSlice = createSlice({
 
     }
 })
-export const {setUser, clearUser} = loginSlice.actions
+export const { setUser, clearUser } = loginSlice.actions
 export const initializeLogin = (signObj) => {
+
+
     return async dispatch => {
         try {
             const user = await loginService.login(signObj)
@@ -28,6 +30,7 @@ export const initializeLogin = (signObj) => {
 
             dispatch(setUser(user))
             dispatch(showNote('login successful'))
+
         } catch (error) {
             console.error(error.message)
             dispatch(showError('wrong username or password'))

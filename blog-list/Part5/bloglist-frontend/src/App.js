@@ -49,6 +49,7 @@ const App = () => {
             dispatch(setUser(user))
         }
     }, [dispatch])
+    
     const setAuthorization = (signObj) => {
         dispatch(initializeLogin(signObj))
     }
@@ -62,10 +63,10 @@ const App = () => {
         dispatch(createBlog(blogObj))
         navigate('/')
     }
-    const handleLikeAdd = (blog) => {
+    const likeAdd = (blog) => {
         dispatch(increaseLike(blog))
     }
-    const handleDeleteBlog = (blog, user) => {
+    const deleteBlog = (blog, user) => {
         if (!window.confirm(`Remove blog ${blog.title} gonna need it! by ${user.name}`)) {
             return
         }
@@ -92,8 +93,8 @@ const App = () => {
                     </LoginForm>}/>
                     <Route path="/blogs/:id" element={<Blog
                         addComment={setComment}
-                        handleDeleteBlog={handleDeleteBlog}
-                        handleLikeAdd={handleLikeAdd}
+                        deleteBlog={deleteBlog}
+                        likeAdd={likeAdd}
                         user={user}
                         blogs={blogs}/>}/>
                 </Routes>
