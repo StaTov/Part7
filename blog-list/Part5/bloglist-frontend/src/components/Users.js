@@ -19,7 +19,7 @@ const Users = ({ users }) => {
                     <tbody >
                         <tr>
                             <Typography variant="h6" component="td">
-                                user
+                                users
                             </Typography>
 
 

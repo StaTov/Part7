@@ -13,7 +13,7 @@ const Notification = () => {
     }
     return (
         <Box p={3} sx={{
-            position: "absolute",
+            position: "relative",
             opasity: 0,
         }}>
             <Alert severity={message.style}>

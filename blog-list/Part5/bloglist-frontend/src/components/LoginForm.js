@@ -8,26 +8,25 @@ import Paper from "@mui/material/Paper"
 import Box from "@mui/material/Box"
 import Typography from "@mui/material/Typography"
 
-const LoginForm = ({
-    children,
-    setAuthorization,
-}) => {
+const LoginForm = ({ setAuthorization }) => {
+
+    const navigate = useNavigate()
     const [password, setPassword] = useState('')
     const [username, setUsername] = useState('')
-    const navigate = useNavigate()
+    const user = useSelector(state => state.login)
+
+
     const handlePassword = ({ target }) => setPassword(target.value)
     const handleUsername = ({ target }) => setUsername(target.value)
+
     const handleLogin = (e) => {
         e.preventDefault()
         setAuthorization({ username, password })
         setPassword('')
         setUsername('')
-        navigate('/')
     }
-    const user = useSelector(state => state.login)
-    if (user) {
-        return null
-    }
+    if (user) { return null }
+
     return (
         <Paper elevation={3}
             sx={{
@@ -38,7 +37,6 @@ const LoginForm = ({
         >
             <Box sx={{ p: 1 }}>
                 <Typography variant="h5">Log in to application</Typography>
-                {children}
             </Box>
             <form onSubmit={handleLogin}>
                 <Box sx={{ p: 1 }}>

@@ -18,8 +18,8 @@ const loginSlice = createSlice({
     }
 })
 export const { setUser, clearUser } = loginSlice.actions
-export const initializeLogin = (signObj) => {
 
+export const initializeLogin = (signObj) => {
 
     return async dispatch => {
         try {
